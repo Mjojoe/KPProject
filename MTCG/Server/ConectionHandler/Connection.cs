@@ -12,12 +12,20 @@ namespace Server.ConectionHandler
     class Connection
     {
         TcpListener Listener;
+        
+
+        public TcpClient ClientSocket { get; private set; }
+
         public Connection()
         {
-
             Listener = null;
-
-
+            
+        }
+        public void HandleThreads(TcpClient clientSocket, Running runner)
+        {
+            ClientSocket = clientSocket;
+            Thread ctThread = new(runner.RunConnection);
+            ctThread.Start();
         }
 
         public void BuildTheConnection()
@@ -35,8 +43,8 @@ namespace Server.ConectionHandler
                     TcpClient ClientSocket = Listener.AcceptTcpClient();
                     //hier den thread starten und sagen er soll die nächste line ausführen
                     Console.WriteLine(count + ": Client Connectet!");
-                    Running ConnectionRunner = new Running();
-                    ConnectionRunner.HandleThreads(ClientSocket);
+                    Running runner = new();
+                    HandleThreads(ClientSocket, runner);
                 }
             }
             catch (SocketException e)
@@ -54,11 +62,9 @@ namespace Server.ConectionHandler
 
         }
 
-        public void EndConnection(TcpClient clientSocket)
+        public static void EndConnection(TcpClient clientSocket)
         {
             clientSocket.Close();
         }
-
-
-    }//end of class
+    }
 }

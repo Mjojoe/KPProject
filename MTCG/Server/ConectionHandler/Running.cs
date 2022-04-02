@@ -9,81 +9,51 @@ namespace Server.ConectionHandler
 {
     class Running
     {
-        StreamHandler StreamHandler;
-        //DataConverter ConvertData;
-        Connection Connection;
+        StreamHandler streamHandler;
+        InputConverter inputData;
+        Connection connection;
 
-        TcpClient ClientSocket;
+        TcpClient clientSocket;
         public Running()
         {
-            StreamHandler = new StreamHandler();
-            Connection = new Connection();
+            streamHandler = new();
+            connection = new();
         }
-        public void RunTheConnection()
+        public void RunConnection()
         {
-            string message = null;
+            NetworkStream clientStream = clientSocket.GetStream();
+            string message = streamHandler.ReadStream(clientStream);
 
-            NetworkStream clientStream = ClientSocket.GetStream();
+            //Console.WriteLine(message);
 
-            message = StreamHandler.ReadStream(clientStream);
-
-            Console.WriteLine(message);
-
-            //Check if message was succesfully received
-            /*
             if (message == null)
             {
                 Console.WriteLine("Connection Error: Message could not be received");
-                Connection.EndConnection(ClientSocket);
+                Connection.EndConnection(clientSocket);
             }
             else
             {
-                ConvertData = DataConverter.GetDataConverter();
-                string[] splitMessage = ConvertData.ExtractData(message);
-
+                inputData = InputConverter.GetInputConverter();
+                string[] splitMessage = inputData.ExtractData(message);
 
                 CommandHandler commandHandler = new CommandHandler();
-                string returnMessage = null;
 
-                //go to right http method
                 if (splitMessage[0].Contains("POST"))
                 {
-
-                    returnMessage = commandHandler.PostMethod(splitMessage);
-
+                    commandHandler.PostMethod(splitMessage);
                 }
                 else if (splitMessage[0].Contains("GET"))
                 {
-                    // token in header
-                    returnMessage = commandHandler.GetMethod(splitMessage);
-
+                    commandHandler.GetMethod(splitMessage);
                 }
                 else if (splitMessage[0].Contains("PUT"))
                 {
-                    //daten und token?
-                    returnMessage = commandHandler.PutMethod(splitMessage);
+                    commandHandler.PutMethod(splitMessage);
                 }
-                //zuesrt hole ich das kommand heraus aus der message
-
-
-                if (returnMessage != null)
-                {
-                    StreamWriting sendMessage = new StreamWriting();
-                    sendMessage.WriteStream(returnMessage, clientStream);
-                }
-
-
-
-                ConnectionEnd.EndTheConnection(ClientSocket);
+                Connection.EndConnection(clientSocket);
             }
-            */
+            
+        }
 
-        }
-        public void HandleThreads(TcpClient clientSocket)
-        {
-            ClientSocket = clientSocket;
-            Thread ctThread = new Thread(RunTheConnection);
-            ctThread.Start();
-        }
     }
 }

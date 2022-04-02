@@ -15,7 +15,6 @@ namespace Server
         {
             int i = 0;
             string clientMessage = null;
-
             byte[] bytes = new byte[10025];
 
             while (clientStream.DataAvailable)
