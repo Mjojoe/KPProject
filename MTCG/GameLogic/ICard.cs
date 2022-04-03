@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace GameLogic
 {
-    interface ICard
+    public interface ICard
     {
-        Element IsElement();
+        string Name { get; }
+        int Power { get; }
+        Type Type { get; }
+        Element Element { get; }
         bool HasAdvantage(ICard enemy);
-        Type IsType();
     }
 }

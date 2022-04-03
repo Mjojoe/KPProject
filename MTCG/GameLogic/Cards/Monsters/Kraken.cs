@@ -7,25 +7,21 @@ using GameLogic.Monsters.Parents;
 
 namespace GameLogic.Monsters
 {
-    internal class Kraken : WaterMonster
+    public class Kraken : WaterMonster
     {
-        string Name { get; }
-        int Power { get; }
+        public override string Name { get; }
+        public override int Power { get; }
+        public override Clan Clan { get { return Clan.Kraken; } }
         public Kraken(string name, int power)
         {
             Name = name;
             Power = power;
         }
 
-        public override Clan IsClan()
+        public bool IsImmune(ICard enemy)
         {
-            return Clan.Kraken;
-        }
-
-        public override bool IsImmune(IMonster enemy)
-        {
-            if (enemy.IsType() == Type.Spell) return true;
-            return false;
+            if (enemy.Type == Type.Spell) return true;
+            else return false;
         }
     }
 }

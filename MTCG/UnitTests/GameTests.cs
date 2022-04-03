@@ -11,14 +11,14 @@ namespace UnitTests
         [SetUp]
         public void Setup()
         {
-            _kraken = new Kraken("testKraken",1);
-            _fireSpell = new FireSpell("testSpell", 1);
+            Kraken _kraken = new Kraken("testKraken",1);
+            FireSpell _fireSpell = new FireSpell("testSpell", 1);
         }
 
         [Test]
-        public void Test1()
+        public void Test1(Kraken kraken, FireSpell fireSpell)
         {
-            Assert.True(_kraken.IsImmune(_fireSpell);
+            Assert.True(kraken.IsImmune(fireSpell));
         }
     }
 }

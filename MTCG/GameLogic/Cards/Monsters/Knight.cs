@@ -7,24 +7,15 @@ using GameLogic.Monsters.Parents;
 
 namespace GameLogic.Monsters.Interfaces
 {
-    internal class Knight : NormalMonster
+    public class Knight : NormalMonster
     {
-        string Name { get; }
-        int Power { get; }
+        public override string Name { get; }
+        public override int Power { get; }
+        public override Clan Clan { get { return Clan.Knight; } }
         public Knight(string name, int power)
         {
             Name = name;
             Power = power;
-        }
-
-        public override Clan IsClan()
-        {
-            return Clan.Knight;
-        }
-
-        public override bool IsImmune(IMonster enemy)
-        {
-            return false;
         }
     }
 }

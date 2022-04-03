@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace GameLogic
 {
-    interface IMonster : ICard
+    public interface IMonster : ICard
     {
-        public abstract Clan IsClan();
-        public abstract bool IsImmune(ICard enemy);
+        Clan Clan { get; }
+        public abstract bool IsImmune(IMonster enemy);
 
     }
 }

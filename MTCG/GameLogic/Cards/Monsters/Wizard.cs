@@ -5,25 +5,22 @@ using System.Text;
 using System.Threading.Tasks;
 using GameLogic.Monsters.Parents;
 
-namespace GameLogic.Monsters
+namespace GameLogic.Monsters.Interfaces
 {
-    internal class Dragon : FireMonster
+    public class Wizard : WaterMonster
     {
-        string Name { get; }
-        int Power { get; }
-        public Dragon(string name, int power)
+        public override string Name { get; }
+        public override int Power { get; }
+        public override Clan Clan { get { return Clan.Wizard; } }
+        public Wizard(string name, int power)
         {
             Name = name;
             Power = power;
         }
-        public override Clan IsClan()
-        {
-            return Clan.Dragon;
-        }
 
         public override bool IsImmune(IMonster enemy)
         {
-            if (enemy.IsClan() == Clan.Goblin) return true;
+            if (enemy.Clan == Clan.Orc) return true;
             else return false;
         }
     }

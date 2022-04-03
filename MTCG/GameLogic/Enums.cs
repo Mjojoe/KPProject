@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace GameLogic
 {
-    enum Element { Fire, Water, Normal }
-    enum Clan { Dragon, Goblin, Knight, Wizard, Elf, Orc, Kraken}
-    enum Type { Monster, Spell}
+    public enum Element { Fire, Water, Normal }
+    public enum Clan { Dragon, Goblin, Knight, Wizard, Elf, Orc, Kraken}
+    public enum Type { Monster, Spell}
 
 }

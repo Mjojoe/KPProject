@@ -7,24 +7,20 @@ using GameLogic.Monsters.Parents;
 
 namespace GameLogic.Monsters
 {
-    internal class Elf : NormalMonster
+    public class Elf : NormalMonster
     {
-        string Name { get; }
-        int Power { get; }
+        public override string Name { get; }
+        public override int Power { get; }
+        public override Clan Clan { get { return Clan.Elf; } }
         public Elf(string name, int power)
         {
             Name = name;
             Power = power;
         }
 
-        public override Clan IsClan()
-        {
-            return Clan.Elf;
-        }
-
         public override bool IsImmune(IMonster enemy)
         {
-            if(enemy.IsClan() == Clan.Dragon) return true;
+            if (enemy.Clan == Clan.Dragon) return true;
             else return false;
         }
     }

@@ -7,24 +7,21 @@ using GameLogic.Monsters.Parents;
 
 namespace GameLogic.Monsters
 {
-    internal class Goblin : NormalMonster
+    public class Dragon : FireMonster
     {
-        string Name { get; }
-        int Power { get; }
-        public Goblin(string name, int power)
+        public override string Name { get; }
+        public override int Power { get; }
+        public override Clan Clan { get { return Clan.Dragon; } }
+        public Dragon(string name, int power)
         {
             Name = name;
             Power = power;
         }
 
-        public override Clan IsClan()
-        {
-            return Clan.Goblin;
-        }
-
         public override bool IsImmune(IMonster enemy)
         {
-            return false;
+            if (enemy.Clan == Clan.Goblin) return true;
+            else return false;
         }
     }
 }
