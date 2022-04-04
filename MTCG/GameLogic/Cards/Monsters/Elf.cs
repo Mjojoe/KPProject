@@ -18,7 +18,7 @@ namespace GameLogic.Monsters
             Power = power;
         }
 
-        public override bool IsImmune(IMonster enemy)
+        public override bool IsImmune(Card enemy)
         {
             if (enemy.Clan == Clan.Dragon) return true;
             else return false;

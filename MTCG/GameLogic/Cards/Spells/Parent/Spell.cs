@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace GameLogic.Spells.Parent
 {
-    interface ISpell : ICard
+    public class Spell : Card
     {
-        
+        public override Type Type { get { return Type.Spell; } }
+
+        public override Clan Clan { get { return Clan.Spell; } }
     }
 }
+

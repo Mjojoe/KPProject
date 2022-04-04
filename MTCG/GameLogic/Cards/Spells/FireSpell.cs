@@ -7,18 +7,16 @@ using GameLogic.Spells.Parent;
 
 namespace GameLogic
 {
-    public class FireSpell : ICard
+    public class FireSpell : Spell
     {
-        public string Name { get; }
+        public override string Name { get; }
 
-        public int Power { get; }
+        public override int Power { get; }
 
-        public Type Type { get { return Type.Spell; } }
-
-        public Element Element { get { return Element.Fire; } }
+        public override Element Element { get { return Element.Fire; } }
         public FireSpell(string name, int power) { Name = name; Power = power; }
 
-        public bool HasAdvantage(ICard enemy)
+        public override bool HasAdvantage(Card enemy)
         {
             if (enemy.Element == Element.Normal) return true;
             else return false;

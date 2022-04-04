@@ -9,5 +9,9 @@ namespace UserModel
         string username;
         string password;
         List<ICard> Collection;
+
+        public static void Main() { }
     }
+
+   
 }

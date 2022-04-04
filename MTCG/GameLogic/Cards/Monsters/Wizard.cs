@@ -18,7 +18,7 @@ namespace GameLogic.Monsters.Interfaces
             Power = power;
         }
 
-        public override bool IsImmune(IMonster enemy)
+        public override bool IsImmune(Card enemy)
         {
             if (enemy.Clan == Clan.Orc) return true;
             else return false;

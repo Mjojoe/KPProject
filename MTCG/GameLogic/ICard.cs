@@ -12,6 +12,8 @@ namespace GameLogic
         int Power { get; }
         Type Type { get; }
         Element Element { get; }
-        bool HasAdvantage(ICard enemy);
+        Clan Clan { get; }
+        public abstract bool IsImmune(Card enemy);
+        bool HasAdvantage(Card enemy);
     }
 }

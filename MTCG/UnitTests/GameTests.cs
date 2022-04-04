@@ -16,8 +16,10 @@ namespace UnitTests
         }
 
         [Test]
-        public void Test1(Kraken kraken, FireSpell fireSpell)
+        public void Test1()
         {
+            Kraken kraken = new Kraken("testKraken", 1);
+            FireSpell fireSpell = new FireSpell("testSpell", 1);
             Assert.True(kraken.IsImmune(fireSpell));
         }
     }

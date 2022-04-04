@@ -18,7 +18,7 @@ namespace GameLogic.Monsters
             Power = power;
         }
 
-        public bool IsImmune(ICard enemy)
+        public override bool IsImmune(Card enemy)
         {
             if (enemy.Type == Type.Spell) return true;
             else return false;
