@@ -1,0 +1,3 @@
+curl:
+changed "useres" to "register" and "sessions" to "login"
+changed "packages" to "addPackage" and "transaction/packages" to "buyPackage"

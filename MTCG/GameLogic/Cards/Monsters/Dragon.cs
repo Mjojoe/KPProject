@@ -7,7 +7,7 @@ using GameLogic.Monsters.Parents;
 
 namespace GameLogic.Monsters
 {
-    public class Dragon : FireMonster
+    public class Dragon : NormalMonster
     {
         public override string Name { get; }
         public override int Power { get; }

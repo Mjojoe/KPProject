@@ -21,12 +21,6 @@ namespace Server.ConectionHandler
             Listener = null;
             
         }
-        public void HandleThreads(TcpClient clientSocket, Running runner)
-        {
-            ClientSocket = clientSocket;
-            Thread ctThread = new(runner.RunConnection);
-            ctThread.Start();
-        }
 
         public void BuildTheConnection()
         {
@@ -36,15 +30,15 @@ namespace Server.ConectionHandler
                 Listener.Start(5);
                 Console.CancelKeyPress += (sender, e) => Environment.Exit(0);
                 int count = 0;
+                Console.WriteLine("\nWaiting for connection...");
+
                 while (true)
                 {
                     count++;
-                    Console.WriteLine("\nWaiting for connection...");
                     TcpClient ClientSocket = Listener.AcceptTcpClient();
-                    //hier den thread starten und sagen er soll die nächste line ausführen
-                    Console.WriteLine(count + ": Client Connectet!");
+                    Console.WriteLine("\n"+count + ": Client Connectet!");
                     Running runner = new();
-                    HandleThreads(ClientSocket, runner);
+                    runner.RunThreads(ClientSocket);
                 }
             }
             catch (SocketException e)

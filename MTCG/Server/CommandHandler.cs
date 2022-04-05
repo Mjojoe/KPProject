@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using DataBase;
 
 namespace Server
 {
@@ -19,39 +20,37 @@ namespace Server
             return token[0];
         }
         //POST requests
-        public void PostMethod(string[] data)
+        public string PostMethod(string[] data)
         {
             if (data[0].Contains("login") || data[0].Contains("register") || data[0].Contains("addPackage") || data[0].Contains("buyPackage"))
             {
                 InputConverter inputConverter = InputConverter.GetInputConverter();
                 JObject jsonData = inputConverter.ConvertToJson(data[data.Length - 1]);
+                DBCommands dBCommands = new ();
+                string authToken = "";
+                
 
                 if (data[0].Contains("addPackage") || data[0].Contains("buyPackage"))
                 {
                     //For buy- and add-Package you need a Token
                     if (data[10].Contains("Basic"))
                     {
-                        string authToken = CutUserToken(data[10]);
-                        //dbHandler.TransmitCommand(jsonData, data[0], authToken);
+                        authToken = CutUserToken(data[10]);
                     }
                     else
                     {
-                        Console.WriteLine("You need to be logged in");
+                        return "You need to be logged in";
                     }
-
                 }
-                else if (data[0].Contains("login") || data[0].Contains("register"))
-                {
-                    //dbHandler.TransmitCommand(jsonData, data[0], authToken);
-                }
+                return dBCommands.ForwardCommand(jsonData, data[0], authToken);
             }
             else
             {
-                Console.WriteLine("Unknown Command");
+                return "Unknown Command";
             }
         }
         //PUT requests
-        public void PutMethod(string[] data)
+        public string PutMethod(string[] data)
         {
             if (data[0].Contains("changeDeck"))
             {
@@ -68,9 +67,10 @@ namespace Server
                 //if yes extract data
                 //send to db
             }
+            return "not yet implemented";
         }
         //GET requests
-        public void GetMethod(string[] data)
+        public string GetMethod(string[] data)
         {
             if (data[0].Contains("stats"))
             {
@@ -80,10 +80,11 @@ namespace Server
                 {
                     string authToken = CutUserToken(data[8]);
                     //dbHandler.TransmitCommand(null, data[0], authToken);
+                    return "not yet implemented";
                 }
                 else
                 {
-                    Console.WriteLine("You need to be logged in");
+                    return "You need to be logged in";
                 }
             }
             else if (data[0].Contains("showCards"))
@@ -124,6 +125,7 @@ namespace Server
                 //surch an enemy
                 //start the game
             }
+            return "not yet implemented";
         }
     }
 }

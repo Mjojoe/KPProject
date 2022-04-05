@@ -9,38 +9,38 @@ namespace Server.ConectionHandler
 {
     class Running
     {
-        StreamHandler streamHandler;
-        InputConverter inputData;
-        Connection connection;
+        StreamHandler StreamHandler;
+        InputConverter InputData;
+        TcpClient ClientSocket;
 
-        TcpClient clientSocket;
         public Running()
         {
-            streamHandler = new();
-            connection = new();
+            StreamHandler = new();
+            //Connection = new();
+           
         }
         public void RunConnection()
         {
-            NetworkStream clientStream = clientSocket.GetStream();
-            string message = streamHandler.ReadStream(clientStream);
+            NetworkStream clientStream = ClientSocket.GetStream();
+            string message = StreamHandler.ReadStream(clientStream);
 
             //Console.WriteLine(message);
 
             if (message == null)
             {
                 Console.WriteLine("Connection Error: Message could not be received");
-                Connection.EndConnection(clientSocket);
+                Connection.EndConnection(ClientSocket);
             }
             else
             {
-                inputData = InputConverter.GetInputConverter();
-                string[] splitMessage = inputData.ExtractData(message);
+                InputData = InputConverter.GetInputConverter();
+                string[] splitMessage = InputData.ExtractData(message);
 
                 CommandHandler commandHandler = new CommandHandler();
 
                 if (splitMessage[0].Contains("POST"))
                 {
-                    commandHandler.PostMethod(splitMessage);
+                    Console.WriteLine(commandHandler.PostMethod(splitMessage));
                 }
                 else if (splitMessage[0].Contains("GET"))
                 {
@@ -50,9 +50,15 @@ namespace Server.ConectionHandler
                 {
                     commandHandler.PutMethod(splitMessage);
                 }
-                Connection.EndConnection(clientSocket);
+                Connection.EndConnection(ClientSocket);
             }
             
+        }
+        public void RunThreads(TcpClient clientSocket)
+        {
+            ClientSocket = clientSocket;
+            Thread ctThread = new Thread(RunConnection);
+            ctThread.Start();
         }
 
     }
