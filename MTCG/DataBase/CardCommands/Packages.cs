@@ -44,7 +44,6 @@ namespace DataBase.CardCommands
             connection.EndCon();
             return false;
         }
-
         public string AddPackage(string cid1, string cid2, string cid3, string cid4, string cid5)
         {
             using var cmd = new NpgsqlCommand("INSERT INTO packages(card1, card2, card3, card4, card5) VALUES(@1, @2, @3, @4, @5)", connection.StartCon());
@@ -68,7 +67,6 @@ namespace DataBase.CardCommands
             cmd.ExecuteNonQuery();
             connection.EndCon();
         }
-
         public string BuyPackage(string username)
         {
             if (PackageAvailable())

@@ -25,24 +25,24 @@ namespace DataBase.CardCommands
             return instance;
         }
 
-        private string GetType(string name)
+        public string GetType(string name)
         {
             if (name.Contains("Spell")) return "spell";
             else return "monster";
         }
-        private string GetElement(string name)
+        public string GetElement(string name)
         {
             if (name.Contains("Water")) return "water";
             else if (name.Contains("Fire")) return "fire";
             else return "normal";
         }
-        private string GetClan(string name)
+        public string GetClan(string name)
         {
             if (name.Contains("Knight")) return "knight";
             else if (name.Contains("Dragon")) return "dragon";
             else if (name.Contains("Elf")) return "elf";
             else if (name.Contains("Kraken")) return "kraken";
-            else if (name.Contains("Ork")) return "orc";
+            else if (name.Contains("Ork")) return "ork";
             else if (name.Contains("Wizard")) return "wizard";
             else if (name.Contains("Spell")) return "spell";
             else return "goblin";
@@ -123,7 +123,7 @@ namespace DataBase.CardCommands
                 cmd.ExecuteNonQuery();
 
                 connection.EndCon();
-                return cid + "Saved in DB\n";
+                return cid + " Saved in DB\n";
             }
             return "Card Already Exists!\n";
         }

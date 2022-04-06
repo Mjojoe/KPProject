@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DataBase
 {
-    internal class DBConnection
+    public class DBConnection
     {
         protected static DBConnection instance = null;
         NpgsqlConnection conn = null;
