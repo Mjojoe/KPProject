@@ -10,9 +10,19 @@ namespace DataBase.CardCommands
     public class Cards
     {
         DBConnection connection;
-        public Cards()
+        static Cards instance;
+        private Cards()
         {
             connection = DBConnection.GetDBConnection();
+        }
+
+        public static Cards GetDBCards()
+        {
+            if(instance == null)
+            {
+                instance = new Cards();
+            }
+            return instance;
         }
 
         private string GetType(string name)
@@ -55,6 +65,44 @@ namespace DataBase.CardCommands
             connection.EndCon();
             return null;
             
+        }
+        private bool CardCollected(string cid, string username)
+        {
+            using var cmd = new NpgsqlCommand("SELECT * FROM collection WHERE card=@id AND username =@u;", connection.StartCon());
+            cmd.Parameters.AddWithValue("id", cid);
+            cmd.Parameters.AddWithValue("u", username);
+            cmd.Prepare();
+
+            using var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                if (reader.GetString(1) == username && reader.GetString(2) == cid)
+                {
+                    connection.EndCon();
+                    return true;
+                }
+            }
+            connection.EndCon();
+            return false;
+        }
+        public string AddCardToCollection(string cid, string username)
+        {
+            if (!CardCollected(cid, username))
+            {
+                using var cmd = new NpgsqlCommand("INSERT INTO collection(username, card) VALUES (@n, @c)", connection.StartCon());
+                
+                    cmd.Parameters.AddWithValue("n", username);
+                    cmd.Parameters.AddWithValue("c", cid);
+                    cmd.Prepare();
+                    cmd.ExecuteNonQuery();
+                
+                connection.EndCon();
+                return "Card Added to Collection.";
+            }
+            else
+            {
+                return "Card Already Owned!";
+            }
         }
         public string AddCard(string cid, string name, float power)
         {

@@ -8,10 +8,10 @@ namespace DataBase.UserCommands
 {
     public class Login
     {
-        CheckUserData checkUserData;
+        UserData checkUserData;
         public Login()
         {
-            checkUserData = CheckUserData.GetCheckUserData();
+            checkUserData = UserData.GetCheckUserData();
         }
         public string LoginByUsername(string username, string password)
         {

@@ -2,5 +2,5 @@
 delete from collection;
 delete from packages;
 delete from cards;
-delete from useres;
+delete from users;
 
