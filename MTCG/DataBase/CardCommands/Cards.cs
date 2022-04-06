@@ -32,20 +32,21 @@ namespace DataBase.CardCommands
             else if (name.Contains("Dragon")) return "dragon";
             else if (name.Contains("Elf")) return "elf";
             else if (name.Contains("Kraken")) return "kraken";
-            else if (name.Contains("Orc")) return "orc";
+            else if (name.Contains("Ork")) return "orc";
             else if (name.Contains("Wizard")) return "wizard";
+            else if (name.Contains("Spell")) return "spell";
             else return "goblin";
         }
         public string SelectCard(string cid)
         {
-            using var cmd = new NpgsqlCommand("SELECT username FROM cards WHERE cid=@id;", connection.StartCon());
+            using var cmd = new NpgsqlCommand("SELECT * FROM cards WHERE cid=@id;", connection.StartCon());
             cmd.Parameters.AddWithValue("id", cid);
             cmd.Prepare();
 
             using var reader = cmd.ExecuteReader();
             while (reader.Read())
             {
-                if (reader.GetString(0) == cid)
+                if (reader.GetString(1) == cid)
                 {
                     connection.EndCon();
                     return "Card Exists";
@@ -55,11 +56,11 @@ namespace DataBase.CardCommands
             return null;
             
         }
-        public string AddCard(string cid, string name, int power)
+        public string AddCard(string cid, string name, float power)
         {
             if(SelectCard(cid) == null)
             {
-                using var cmd = new NpgsqlCommand("INSERT INTO cards(cid, name, power, type, elemnt, clan) VALUES(@id, @n, @p, @t, @e, @c)", connection.StartCon());
+                using var cmd = new NpgsqlCommand("INSERT INTO cards(cid, name, power, type, element, clan) VALUES(@id, @n, @p, @t, @e, @c)", connection.StartCon());
                 string type = GetType(name);
                 string element = GetElement(name);
                 string clan = GetClan(name);
@@ -73,6 +74,7 @@ namespace DataBase.CardCommands
                 cmd.Prepare();
                 cmd.ExecuteNonQuery();
 
+                connection.EndCon();
                 return cid + "Saved in DB\n";
             }
             return "Card Already Exists!\n";

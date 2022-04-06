@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +26,6 @@ namespace Server
             if (data[0].Contains("login") || data[0].Contains("register") || data[0].Contains("addPackage") || data[0].Contains("buyPackage"))
             {
                 InputConverter inputConverter = InputConverter.GetInputConverter();
-                JObject jsonData = inputConverter.ConvertToJson(data[data.Length - 1]);
                 DBCommands dBCommands = new ();
                 string authToken = "";
                 
@@ -42,7 +42,7 @@ namespace Server
                         return "You need to be logged in";
                     }
                 }
-                return dBCommands.ForwardCommand(jsonData, data[0], authToken);
+                return dBCommands.ForwardCommand(data, data[0], authToken);
             }
             else
             {

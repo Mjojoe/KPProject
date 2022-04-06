@@ -27,20 +27,5 @@ namespace Server
             string[] sub = message.Split(seperator, StringSplitOptions.RemoveEmptyEntries);
             return sub;
         }
-
-        //Convert give data into Json Object
-        public JObject ConvertToJson(string data)
-        {
-            try
-            {
-                JObject jsonString = JObject.Parse(data);
-                return jsonString;
-            }
-            catch
-            {
-                Console.WriteLine("Invalid Input. Not a Json Format");
-                return null;
-            }
-        }
     }
 }

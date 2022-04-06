@@ -16,7 +16,7 @@ namespace Server
             try {
                 int i = 0;
                 string clientMessage = null;
-                byte[] bytes = new byte[1025];
+                byte[] bytes = new byte[8192];
 
                 while ((i = clientStream.Read(bytes, 0, bytes.Length))!=0)
                 {

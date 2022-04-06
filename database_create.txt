@@ -1,0 +1,49 @@
+create table users(
+    id serial primary key,
+    username varchar(255) unique,
+    pw varchar(255),
+    coins int,
+    won int,
+    lost int,
+    admin bool
+);
+
+create table cards(
+	id serial primary key,
+	cid varchar(255) unique,
+	name varchar(255),
+	power int,
+	type varchar(20),
+	element varchar(20),
+	clan varchar(20)
+);
+
+create table packages(
+	id serial primary key,
+	card1 varchar(255),
+	card2 varchar(255),
+	card3 varchar(255),
+	card4 varchar(255),
+	card5 varchar(255),
+	FOREIGN KEY(card1) references cards(cid),
+	FOREIGN KEY(card2) references cards(cid),
+	FOREIGN KEY(card3) references cards(cid),
+	FOREIGN KEY(card4) references cards(cid),
+	FOREIGN KEY(card5) references cards(cid)
+);
+create table collection(
+	id serial primary key,
+	username varchar(255),
+	card varchar(255),
+	onsale bool,
+	FOREIGN KEY(username) references users(username),
+	FOREIGN KEY(card) references cards(cid)
+);
+
+
+
+
+
+
+
+
