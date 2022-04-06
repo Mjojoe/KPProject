@@ -10,12 +10,12 @@ namespace DataBase.UserCommands
     public class Register
     {
         DBConnection conn;
-        CheckUserData checkUserData;
+        UserData checkUserData;
 
         public Register()
         {
             conn = DBConnection.GetDBConnection();
-            checkUserData = CheckUserData.GetCheckUserData();
+            checkUserData = UserData.GetCheckUserData();
         }
 
         public string RegisterUser(string username, string password)

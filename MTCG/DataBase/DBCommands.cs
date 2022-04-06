@@ -48,8 +48,8 @@ namespace DataBase
             {
                 if (CutToken(authToken) == "admin")
                 {
-                    Packages packages = new();
-                    Cards cards = new();
+                    Packages packages = Packages.GetDBPackages();
+                    Cards cards = Cards.GetDBCards();
                     JObject jsonData = jhandler.ConvertToJson(data[data.Length - 1]); ;
 
                     string returnstring = "";
@@ -74,7 +74,13 @@ namespace DataBase
             }
             else if (command.Contains("buyPackage"))
             {
-                return "not yet implemented";
+                UserData userData = UserData.GetCheckUserData();
+                if(userData.SelectUserByUSername(CutToken(authToken)) != null)
+                {
+                    Packages packages = Packages.GetDBPackages();
+                    return packages.BuyPackage(CutToken(authToken));
+                }
+                return "Not Authorized!";
             }
             else 
             {
