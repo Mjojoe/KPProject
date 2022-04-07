@@ -66,7 +66,7 @@ namespace DataBase.CardCommands
             return null;
             
         }
-        private bool CardCollected(string cid, string username)
+        private  bool CardCollected(string cid, string username)
         {
             using var cmd = new NpgsqlCommand("SELECT * FROM collection WHERE card=@id AND username =@u;", connection.StartCon());
             cmd.Parameters.AddWithValue("id", cid);
@@ -126,6 +126,41 @@ namespace DataBase.CardCommands
                 return cid + " Saved in DB\n";
             }
             return "Card Already Exists!\n";
+        }
+        public string GetCollecteCardsByUsername(string username)
+        {
+            using var cmd = new NpgsqlCommand("SELECT * FROM collection WHERE username=@u;", connection.StartCon());
+            cmd.Parameters.AddWithValue("u", username);
+            cmd.Prepare();
+
+            string returnstring = "";
+            using var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                returnstring = returnstring + reader.GetString(2) + "+";
+            }
+            connection.EndCon();
+            return returnstring;
+        }
+        public string GetCardNameAndPowerByCID(string cid)
+        {
+            using var cmd = new NpgsqlCommand("SELECT * FROM cards WHERE cid=@id;", connection.StartCon());
+            cmd.Parameters.AddWithValue("id", cid);
+            cmd.Prepare();
+
+            string returnstring = "";
+            using var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                if (reader.GetString(1) == cid)
+                {
+                    returnstring = returnstring + "Name: " + reader.GetString(2) + " - Power: " + reader.GetDouble(3) + "\n";
+                    connection.EndCon();
+                    return returnstring;
+                }
+            }
+            connection.EndCon();
+            return "Card Not Found\n";
         }
     }
 }

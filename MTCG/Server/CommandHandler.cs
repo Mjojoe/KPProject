@@ -52,79 +52,41 @@ namespace Server
         //PUT requests
         public string PutMethod(string[] data)
         {
-            if (data[0].Contains("changeDeck"))
-            {
-                //extract username from token
-                //extract data an transform to Json
-                //if failed should trigger show deck
-                //send to Db
-
-            }
-            else if (data[0].Contains("users"))
-            {
-                //extract username from token
-                //check if username is the same as in the link
-                //if yes extract data
-                //send to db
-            }
             return "not yet implemented";
         }
         //GET requests
         public string GetMethod(string[] data)
         {
+            DBCommands dBCommands = new();
+            
             if (data[0].Contains("stats"))
             {
-                //CommandHandlerDb dbHandler = new CommandHandlerDb();
-
-                if (data[8].Contains("Basic"))
-                {
-                    string authToken = CutUserToken(data[8]);
-                    //dbHandler.TransmitCommand(null, data[0], authToken);
-                    return "not yet implemented";
-                }
-                else
-                {
-                    return "You need to be logged in";
-                }
+                return "You need to be logged in";
+                //get username
+                //show wins, losses, calculated ELO
             }
-            else if (data[0].Contains("showCards"))
+            else if (data[0].Contains("cards"))
             {
+                if(data.Length > 8) 
+                {
+                    if (data[8].Contains("Basic"))
+                    {
+                        string authToken = CutUserToken(data[8]);
+                        return dBCommands.ForwardCommand(data, data[0], authToken);
+                    }
+                    return "Not Authorized";
+                }
+                else return "Not logged in";
                 //check if token is there
                 //starte db suche
             }
             else if (data[0].Contains("showDeck"))
             {
+                return "not yet implemented";
                 //get username from token
-                //go to db
-
+                //show collection
             }
-            else if (data[0].Contains("changeDeck"))
-            {
-                //get username from token
-                //send to db
-
-            }
-            else if (data[0].Contains("users"))
-            {
-                //extract username from token
-                //check if username is the same as in the link
-                //no data so nothing changes
-                //send to db
-
-            }
-            //this have a special command
-            else if (data[0].Contains("monsterBattle"))
-            {
-                //check if token is there
-                //surch an enemy
-                //start the game
-            }
-            else if (data[0].Contains("spellBattle"))
-            {
-                //check if token is there
-                //surch an enemy
-                //start the game
-            }
+            
             return "not yet implemented";
         }
     }

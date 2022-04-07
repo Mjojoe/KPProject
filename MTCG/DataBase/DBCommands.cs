@@ -11,16 +11,13 @@ namespace DataBase
 {
     public class DBCommands
     {
-
-        public DBCommands() { }
-
-        public static string CutToken(string authtoken)
+        
+        public DBCommands() 
         {
-            string[] seperator = { "-" };
-            string[] splitstring = authtoken.Split(seperator, StringSplitOptions.RemoveEmptyEntries);
-            return splitstring[0];
+            
         }
 
+        
         public string ForwardCommand(string[] data, string command, string authToken)
         {
             JsonHandler jhandler = JsonHandler.GetJsonHandler(); ;
@@ -46,7 +43,7 @@ namespace DataBase
             }
             else if (command.Contains("addPackage"))
             {
-                if (CutToken(authToken) == "admin")
+                if (StringConverter.CutToken(authToken) == "admin")
                 {
                     Packages packages = Packages.GetDBPackages();
                     Cards cards = Cards.GetDBCards();
@@ -75,12 +72,34 @@ namespace DataBase
             else if (command.Contains("buyPackage"))
             {
                 UserData userData = UserData.GetCheckUserData();
-                if(userData.SelectUserByUSername(CutToken(authToken)) != null)
+                if(userData.SelectUserByUSername(StringConverter.CutToken(authToken)) != null)
                 {
                     Packages packages = Packages.GetDBPackages();
-                    return packages.BuyPackage(CutToken(authToken));
+                    return packages.BuyPackage(StringConverter.CutToken(authToken));
                 }
                 return "Not Authorized!";
+            }
+            else if (command.Contains("cards"))
+            {
+                UserData userData = UserData.GetCheckUserData();
+                if(userData.SelectUserByUSername(StringConverter.CutToken(authToken)) != null)
+                {
+                    Cards cards = Cards.GetDBCards();
+                    string[] cids = StringConverter.GetKeys(
+                        cards.GetCollecteCardsByUsername(
+                            StringConverter.CutToken(authToken)
+                        ));
+                    string returnstring = "";
+                    if (cids != null)
+                    {
+                        foreach (string cid in cids)
+                        {
+                            returnstring = returnstring + cards.GetCardNameAndPowerByCID(cid);
+                        }
+                    }
+                    return returnstring;
+                }
+                return "Not Authorized";
             }
             else 
             {

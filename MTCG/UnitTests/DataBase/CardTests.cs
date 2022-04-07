@@ -6,7 +6,7 @@ using UnitTests.Support;
 namespace UnitTests.DataBase
 {
     [TestFixture]
-    internal class DBCardTests
+    internal class CardTests
     {
         static DBSupport sup = DBSupport.GetDBSupport();
 
@@ -61,7 +61,7 @@ namespace UnitTests.DataBase
         [TestCase("Kraken")]
         [TestCase("Ork")]
         [TestCase("Wizard")]
-        [TestCase("goblin")]
+        [TestCase("Goblin")]
         public void GetClan_Monsters(string name)
         {
             Cards card = Cards.GetDBCards();
@@ -105,6 +105,32 @@ namespace UnitTests.DataBase
             string awnser = card.AddCard(cardID, name, power);
 
             Assert.AreEqual("Card Already Exists!\n", awnser);
+            sup.ResetCards();
+        }
+
+        [Test]
+        public void SelectCard_Success()
+        {
+            sup.ResetCards();
+            string cardID = "testID";
+            string name = "testcard";
+            float power = 9.0f;
+            Cards card = Cards.GetDBCards();
+            card.AddCard(cardID, name, power);
+            string awnser = card.SelectCard(cardID);
+
+            Assert.AreEqual("Card Exists", awnser);
+            sup.ResetCards();
+        }
+
+        [Test]
+        public void SelectCard_Failure()
+        {
+            sup.ResetCards();
+            Cards card = Cards.GetDBCards();
+            string awnser = card.SelectCard("testID");
+
+            Assert.IsNull( awnser);
             sup.ResetCards();
         }
     }

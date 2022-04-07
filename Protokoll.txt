@@ -2,3 +2,65 @@ curl:
 changed "useres" to "register" and "sessions" to "login"
 changed "packages" to "addPackage" and "transaction/packages" to "buyPackage"
 changed addPackage JsonObjects for processing
+
+lessons learned:
+for my game logic i wanted to properly structure my inhertiance between classes.
+so i spent a lot of time looking at different structres, trying to implement them and then changeing 
+them up again.
+i hope that the lessons i learned will reduce my time needed for class structure in future projects, 
+but i did lose the majority of my time here.
+i also had a rather unintuatie problem parsing the curl-requests, where sometimes they would randomly 
+fail to transmit (curl(56) recv failure: Connection was aborted), but i got that ironed out in the end. 
+It had to with how i was parsing the networkstream i was recieving.
+
+
+structure:
+i also decided to structure my solution into 4 difrent projects in vs.
+so i had one for listening to the curl requests, unpacking them and sending them of.
+one to handle everthing that was connected to databse access.
+and the other to handled in logic usere persitance and the game itself.
+allthough i did not have enough time to implement everything to absolution.
+
+OVERVIEW:
+DataBase			GameLogic
+- DBCommands			- ICard
+- DEBConnection			- Card
+- JSONHandler			- Enums
+- StringConverter		- Game
+- CardCommands(folder)		- Cards(folder)
+  - Cards			  - Spells
+  - Packages			    - FireSpell
+- UserCommands(folder)		    - WaterSpell
+  - Login			    - NormalSpell
+  - Register			    - Parent(folder)
+  - UserData			      - Spell
+				  - Monsters
+				    - Dragon
+Server			            - Elf
+- Server			    - Goblin
+- StreamHandler			    - Knight
+- InputConverter		    - Kraken
+- CommandHandler		    - Ork
+- ConectionHandler(folder)    	    - Wizard
+  - Connection			    - Parents(folder)	
+  - Running			      - FireMonster
+				      - WaterMonster
+				      - NormalMonster
+
+
+unitTests:
+i chose to unit test my card immunity function as i had a lot of trouble during conception getting it, 
+especially in the kraken, to work properly.
+i also elected to focus on database fuctions, as to ensure i only wrote meaningful entries and didnt let 
+any unwanted commands slip through my code.
+
+time spent:
+2022-28-03: 	4 hours basic server structure
+2022-29-03: 	2 hours polishing server
+2022-30-03: 	2 hours started game logic
+2022-02-04: 	3 hours fixed server bugs, continued game logic strcture
+2022-03-04: 	4 hours spent too much time on minute details in inheritance.
+2022-04-04: 	6 hours installing postgresql, researching databse connection, starting databse structure
+2022-05-04: 	6 hours implemented register and login functions
+			fixed "recv failure" bug, started addPackage function
+2022-06-04: 	8 hours fixing json Object handeling finished addPackage, finished buy package.

@@ -44,11 +44,11 @@ namespace Server.ConectionHandler
                 }
                 else if (splitMessage[0].Contains("GET"))
                 {
-                    commandHandler.GetMethod(splitMessage);
+                    Console.WriteLine(commandHandler.GetMethod(splitMessage));
                 }
                 else if (splitMessage[0].Contains("PUT"))
                 {
-                    commandHandler.PutMethod(splitMessage);
+                    Console.WriteLine(commandHandler.PutMethod(splitMessage));
                 }
                 Connection.EndConnection(ClientSocket);
             }
